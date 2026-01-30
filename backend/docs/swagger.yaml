@@ -1,0 +1,96 @@
+basePath: /api/v1
+definitions:
+  products.APIResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  products.CreateProductRequest:
+    properties:
+      code:
+        example: ABCD-1234-EFGH-5678
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API สำหรับจัดการรหัสสินค้าและบาร์โค้ด (Code 39)
+  title: Product Barcode Management API
+  version: "1.0"
+paths:
+  /products:
+    get:
+      description: ดึงรายการรหัสสินค้าและบาร์โค้ดทั้งหมดในระบบ
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ดึงรายการสินค้าสำเร็จ
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+      summary: List products
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: เพิ่มรหัสสินค้าและสร้างบาร์โค้ดตามมาตรฐาน Code 39
+      parameters:
+      - description: รหัสสินค้า
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/products.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: สร้างบาร์โค้ดสำเร็จ
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+        "400":
+          description: ข้อมูลไม่ถูกต้อง
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+        "500":
+          description: เกิดข้อผิดพลาดภายในระบบ
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+      summary: Create product
+      tags:
+      - products
+  /products/{id}:
+    delete:
+      description: ลบรหัสสินค้าออกจากระบบตาม ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ลบข้อมูลสำเร็จ
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+        "400":
+          description: ID ไม่ถูกต้อง
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+        "404":
+          description: ไม่พบข้อมูล
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+        "500":
+          description: เกิดข้อผิดพลาดภายในระบบ
+          schema:
+            $ref: '#/definitions/products.APIResponse'
+      summary: Delete product
+      tags:
+      - products
+swagger: "2.0"

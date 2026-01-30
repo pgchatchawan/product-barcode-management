@@ -13,6 +13,7 @@ type Repo interface {
 	List() []Product
 	Create(code string) Product
 	Delete(id int) error
+	Clear()
 }
 
 type memoryRepo struct {
@@ -65,4 +66,11 @@ func (r *memoryRepo) Delete(id int) error {
 	}
 	delete(r.items, id)
 	return nil
+}
+
+func (r *memoryRepo) Clear() {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.items = make(map[int]Product)
+	r.nextID = 1
 }

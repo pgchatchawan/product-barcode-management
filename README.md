@@ -8,13 +8,16 @@
 
 ## 📌 Overview
 
-Product Barcode Management เป็นระบบสำหรับ
-- เพิ่ม
-- แสดง
-- ลบ
+**Product Barcode Management** เป็นระบบสำหรับจัดการข้อมูลรหัสสินค้า  
+รองรับการทำงานหลักดังนี้
 
-ข้อมูลรหัสสินค้า พร้อมแสดงบาร์โค้ดตามมาตรฐานที่กำหนด  
-ออกแบบโครงสร้างโค้ดให้แยกความรับผิดชอบชัดเจน (Clean Architecture Style)
+- เพิ่มข้อมูลสินค้า
+- แสดงรายการสินค้า
+- ลบข้อมูลสินค้า
+
+พร้อมแสดงบาร์โค้ดตามมาตรฐานที่กำหนด  
+โครงสร้างโค้ดถูกออกแบบให้แยกความรับผิดชอบชัดเจน  
+โดยยึดแนวคิด **Clean Architecture / Feature-based Structure**
 
 ---
 
@@ -29,17 +32,18 @@ Product Barcode Management เป็นระบบสำหรับ
 - ตรวจสอบรูปแบบรหัสสินค้าอัตโนมัติ
   - ความยาว 16 ตัวอักษร
   - รูปแบบ `XXXX-XXXX-XXXX-XXXX`
-  - อักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A–Z) และตัวเลข (0–9)
-- Auto Uppercase + Auto Format ขณะพิมพ์
-- ปุ่มเพิ่มรายการจะถูกปิดใช้งานเมื่อข้อมูลไม่ถูกต้อง
+  - รองรับเฉพาะอักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A–Z) และตัวเลข (0–9)
+- Auto Uppercase และ Auto Format ระหว่างพิมพ์
+- ปุ่ม **เพิ่มรายการ** จะถูกปิดใช้งานเมื่อข้อมูลไม่ถูกต้อง
 
 ### Barcode
 - แสดงบาร์โค้ดตามมาตรฐาน **Code 39**
 
-### UX
-- แสดงรายการสินค้าในรูปแบบตาราง
+### UX / UI
+- แสดงข้อมูลในรูปแบบตาราง
 - ลบข้อมูลพร้อม Confirm Dialog
-- Response รูปแบบเดียวกันทั้งระบบ (Custom API Response)
+- อัปเดตข้อมูลแบบ Real-time (Optimistic UI)
+- รูปแบบ Response ของ API เป็นมาตรฐานเดียวกันทั้งระบบ
 
 ---
 
@@ -47,7 +51,8 @@ Product Barcode Management เป็นระบบสำหรับ
 
 ตัวอย่างหน้าจอการใช้งานระบบ
 
-![UI Preview](docs/ui.png)
+![UI Preview](docs/UI-Barcode.png)  
+![API Preview](docs/Api-Barcode.png)
 
 ---
 
@@ -75,7 +80,7 @@ Product Barcode Management เป็นระบบสำหรับ
 
 - รหัสสินค้าต้องประกอบด้วยตัวอักษร A–Z และตัวเลข 0–9 เท่านั้น
 - ความยาวรหัสสินค้า 16 ตัวอักษร
-- รูปแบบ `XXXX-XXXX-XXXX-XXXX`
+- รูปแบบรหัสสินค้า `XXXX-XXXX-XXXX-XXXX`
 - ระบบแสดงบาร์โค้ดตามมาตรฐาน **Code 39**
 - ไม่อนุญาตให้เพิ่มข้อมูลที่ไม่ถูกต้องตามรูปแบบที่กำหนด
 
@@ -86,22 +91,39 @@ Product Barcode Management เป็นระบบสำหรับ
 ```text
 product-barcode-management
 ├── backend
-│   ├── cmd/api            # Entry point
-│   ├── docs               # Swagger docs
+│   ├── cmd/api                # Application entry point
+│   ├── docs                   # Swagger documentation
 │   ├── internal
-│   │   ├── app             # Router / Response
-│   │   └── products        # Feature: products
+│   │   ├── app                # Router / API response
+│   │   └── products           # Product feature
 │   │       ├── handler.go
 │   │       ├── service.go
 │   │       ├── repo.go
 │   │       ├── model.go
 │   │       └── routes.go
 │   ├── Dockerfile
-│   └── docker-compose.yml
+│   ├── docker-compose.yml
+│   ├── .env.example
+│   ├── go.mod
+│   └── go.sum
 │
 ├── frontend
 │   ├── src
+│   │   ├── app
+│   │   │   ├── components
+│   │   │   │   └── confirm-dialog
+│   │   │   └── pages
+│   │   │       └── product
+│   │   │           ├── product.component.ts
+│   │   │           ├── product.component.html
+│   │   │           ├── product.component.scss
+│   │   │           └── product.api.ts
+│   │   ├── app.routes.ts
+│   │   ├── app.config.ts
+│   │   └── main.ts
+│   ├── proxy.conf.json
 │   ├── angular.json
-│   └── package.json
+│   ├── package.json
+│   └── package-lock.json
 │
 └── README.md

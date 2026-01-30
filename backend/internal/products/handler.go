@@ -73,16 +73,13 @@ func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-		_, err := h.svc.Create(req.Code)
+	p, err := h.svc.Create(req.Code)
 	if err != nil {
 		fail(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	writeJSON(w, http.StatusCreated, APIResponse{
-		StatusCode: http.StatusCreated,
-		Message:    "Create barcode success",
-	})
+	ok(w, http.StatusCreated, p)
 }
 
 // DeleteProduct godoc

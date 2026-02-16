@@ -130,7 +130,7 @@ product-barcode-management
 
 
 ```
-### Install Node Downgrade Version (v20.19.0)
+### Install Node Downgrade Version => (v20.19.0)
 
 ```bash
 nvm install 20.19.0
@@ -143,14 +143,14 @@ nvm use 20.19.0
 node -v
 ```
 
-### Run server Front-end
+### Run Server Front-end
 
 ```bash
 npm install
 ng serve
 ```
 
-### Run server Back-end
+### Run Server Back-end
 
 ```bash
 go run cmd/api/main.go

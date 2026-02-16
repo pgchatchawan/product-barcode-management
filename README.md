@@ -127,3 +127,33 @@ product-barcode-management
 │   └── package-lock.json
 │
 └── README.md
+
+
+```
+### Install Node Downgrade Version (v20.19.0)
+
+```bash
+nvm install 20.19.0
+nvm use 20.19.0
+```
+
+### Check Version Node
+
+```bash
+node -v
+```
+
+### Run server Front-end
+
+```bash
+npm install
+ng serve
+```
+
+### Run server Back-end
+
+```bash
+go run cmd/api/main.go
+```
+
+
